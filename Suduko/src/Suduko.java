@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+// This up Generate Soduko board
+
 public class Suduko {
 	static int sizeOfBoard = 9;
 	static int[][] board = new int[sizeOfBoard][sizeOfBoard];
@@ -18,27 +20,15 @@ public class Suduko {
 		int y = (int) Math.floor(Math.random() * 9);
 		// removing many numbers from board
 		removeRand(x, y);
-		
-		printBoard();
-		slove(0, 0);
 
 		// print board
 		printBoard();
-		
-		int res1 =scan.nextInt()-1;
-		int res2 =scan.nextInt()-1;
-		int res3 =scan.nextInt();
-		
-		while(res1 != -99) {
-			board[res1][res2]=res3;
-			printBoard();
-			res1 =scan.nextInt()-1;
-			res2 =scan.nextInt()-1;
-			res3 =scan.nextInt();
-		}
+
 		
 	}
 
+	// removingnumbers from ranom space on the board
+	
 	public static boolean removeRand(int x, int y) {
 		while (many != 0) {
 			while (board[y][x] == 0) {
@@ -50,7 +40,8 @@ public class Suduko {
 		}
 		return true;
 	}
-
+	
+	// initializing the baord to hold 0 on all squres
 	public static void init() {
 		for (int i = 0; i < sizeOfBoard; i++) {
 			for (int j = 0; j < sizeOfBoard; j++) {			
@@ -58,7 +49,9 @@ public class Suduko {
 			}
 		}
 	}
-
+	
+	// creating full sloved board
+	
 	public static void startGame() {
 		// filling diagonal boxes
 		for (int i = 0; i < sizeOfBoard; i += 3) {
@@ -68,6 +61,8 @@ public class Suduko {
 		}
 		slove(0, 0);
 	}
+	
+	//find random place on the borad with 0 on it
 
 	public static void randomPlace(int i, int number) {
 		boolean state = false;
@@ -81,33 +76,41 @@ public class Suduko {
 		}
 		board[randY][randX] = number;
 	}
+	
+	//slove the board with recursion
 
 	public static boolean slove(int x, int y) {
+		//stop condition 
 		if (y == sizeOfBoard || x == sizeOfBoard) return true;
-
+		//check for validation by the rules
 		if (!validRow(x, y) || !validCol(x, y) || !validBox(x, y)) {
 			board[y][x] = 0;
 			return false;
 		}
-
+		// incrementing 
 		while (y < sizeOfBoard && x < sizeOfBoard && board[y][x] != 0) {
 			if (x == 8) {
 				x = 0;
 				y++;
 			} else x++;
 		}
-
+		
+		
+		//stop condition
 		if (y == sizeOfBoard || x == sizeOfBoard)return true;
-
+		
+		//calling the recursion if it return true the slove is done
 		for (int i = 1; i <= sizeOfBoard; i++) {
 			board[y][x] = i;
 			if (!slove(x, y)) continue;
 			else return true;
 		}
+		// if we get to these part we nned to go back 1 step backword
 		board[y][x] = 0;
 		return false;
 	}
-
+	
+	//row validation
 	public static boolean validRow(int x, int y) {
 		for (int i = 0; i < sizeOfBoard; i++) {
 			if (i == x) continue;
@@ -116,6 +119,7 @@ public class Suduko {
 		return true;
 	}
 
+	//column validation
 	public static boolean validCol(int x, int y) {
 		for (int i = 0; i < sizeOfBoard; i++) {
 			if (i == y)continue;
@@ -124,6 +128,7 @@ public class Suduko {
 		return true;
 	}
 
+	//box validation
 	public static boolean validBox(int x, int y) {
 		for (int i = y - y % 3; i < y - y % 3 + 3; i++) {
 			for (int j = x - x % 3; j < x - x % 3 + 3; j++) {
@@ -134,6 +139,7 @@ public class Suduko {
 		return true;
 	}
 
+	//printing board
 	public static void printBoard() 
 	{
 		String print;
